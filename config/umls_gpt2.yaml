@@ -1,0 +1,75 @@
+save_path: umls_GPT2
+load_path: null
+seed: 1
+
+data:
+  data_path: ../data/umls
+  rule_file: ../data/umls/mined_rules.txt
+  batch_size: 32
+
+EM:
+  num_iters: 5
+  prior_weight: 0.001
+  num_rules: 100
+  max_length: 3
+
+generator:
+  gpu: 0
+  model:
+    # GPT-2 Parameters
+    embedding_dim: 256
+    hidden_dim: 1024
+    num_layers: 4
+  pre_train:
+    num_epoch: 2000
+    lr: 0.0005
+    print_every: 100
+    batch_size: 256
+  train:
+    num_epoch: 50
+    lr: 0.0001
+    print_every: 1000
+    batch_size: 256
+  post_train:
+    num_epoch: 500
+    lr: 0.0001
+    print_every: 100
+    batch_size: 256
+
+predictor:
+  gpus: [0]
+  model:
+    entity_feature: bias
+  optimizer:
+    lr: 0.001
+    weight_decay: 0
+  train:
+    smoothing: 0.2
+    batch_per_epoch: 1000000
+    print_every: 1000
+  eval:
+    expectation: True
+  H_score:
+    print_every: 1000
+
+final_prediction:
+  num_iters: 5
+  num_rules: [100, 100, 500, 200, 100]
+  max_length: [1, 2, 3, 4, 5]
+
+predictorplus:
+  gpus: [0]
+  model:
+#    entity_feature: RotatE
+#    embedding_path: ../data/kinship/RotatE_100
+    hidden_dim: 16
+    aggregator: pna
+  optimizer:
+    lr: 0.005
+    weight_decay: 0
+  train:
+    smoothing: 0.2
+    batch_per_epoch: 1000000
+    print_every: 1000
+  eval:
+    expectation: True

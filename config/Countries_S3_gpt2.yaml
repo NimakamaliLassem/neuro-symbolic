@@ -1,0 +1,72 @@
+save_path: Countries_S3_GPT2
+load_path: null
+seed: 1
+
+data:
+  data_path: ../data/Countries_S3
+  rule_file: ../data/Countries_S3/mined_rules.txt
+  batch_size: 32
+
+EM:
+  num_iters: 5
+  prior_weight: 0.001
+  num_rules: 100
+  max_length: 3
+
+generator:
+  gpu: 0
+  model:
+    # GPT-2 Parameters
+    embedding_dim: 256  # d_model
+    hidden_dim: 1024    # d_inner
+    num_layers: 4       # Deeper than RNN
+  pre_train:
+    num_epoch: 2000
+    lr: 0.0005
+    print_every: 100
+    batch_size: 256
+  train:
+    num_epoch: 50
+    lr: 0.0001
+    print_every: 1000
+    batch_size: 256
+  post_train:
+    num_epoch: 500
+    lr: 0.0001
+    print_every: 100
+    batch_size: 256
+
+predictor:
+  gpus: [0]
+  model:
+    entity_feature: bias
+  optimizer:
+    lr: 0.001
+    weight_decay: 0
+  train:
+    smoothing: 0.2
+    batch_per_epoch: 1000000
+    print_every: 1000
+  eval:
+    expectation: True
+  H_score:
+    print_every: 1000
+
+final_prediction:
+  num_iters: 5
+  num_rules: [100]
+  max_length: [3]
+
+predictorplus:
+  gpus: [0]
+  model:
+    hidden_dim: 16
+  optimizer:
+    lr: 0.005
+    weight_decay: 0
+  train:
+    smoothing: 0.2
+    batch_per_epoch: 1000000
+    print_every: 1000
+  eval:
+    expectation: True

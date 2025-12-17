@@ -1,6 +1,6 @@
-# Neuro-Symbolic - RNNLogic Project
+# Unified RNNLogic Project
 
-This directory contains a unified codebase for multiple RNNLogic variants developed as part of our Big Data Research Project at CentraleSupelec, including GRU, Mamba, LSTM, TransformerXL, GPT-2, and TRM.
+This directory contains a unified codebase for multiple RNNLogic variants, including GRU, Mamba, LSTM, TransformerXL, GPT-2, and TRM.
 
 ## Architecture
 

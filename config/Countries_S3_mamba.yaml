@@ -1,0 +1,73 @@
+save_path: Countries_S3
+load_path: null
+seed: 1
+
+data:
+  data_path: ../data/Countries_S3
+  rule_file: ../data/Countries_S3/mined_rules.txt
+  batch_size: 32
+
+EM:
+  num_iters: 5
+  prior_weight: 0.001
+  #prior_weight: 0.2
+  num_rules: 100
+  max_length: 3
+
+generator:
+  gpu: 0
+  model:
+    embedding_dim: 512
+    hidden_dim: 256
+    num_layers: 3
+  pre_train:
+    num_epoch: 10000
+    lr: 0.001
+    print_every: 1000
+    batch_size: 512
+  train:
+    num_epoch: 100
+    lr: 0.00001
+    print_every: 1000
+    batch_size: 512
+  post_train:
+    num_epoch: 1000
+    lr: 0.00001
+    print_every: 1000
+    batch_size: 512
+
+predictor:
+  gpus: [0]
+  model:
+    entity_feature: bias
+  optimizer:
+    lr: 0.001
+    weight_decay: 0
+  train:
+    smoothing: 0.2
+    batch_per_epoch: 1000000
+    print_every: 1000
+  eval:
+    expectation: True
+  H_score:
+    print_every: 1000
+
+final_prediction:
+  num_iters: 5
+  num_rules: [100]
+  max_length: [3]
+
+predictorplus:
+  gpus: [0]
+  model:
+    hidden_dim: 16
+  optimizer:
+    lr: 0.005
+    weight_decay: 0
+  train:
+    smoothing: 0.2
+    batch_per_epoch: 1000000
+    print_every: 1000
+  eval:
+    expectation: True
+    
